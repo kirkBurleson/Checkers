@@ -1,0 +1,10 @@
+obj/
+bin/
+Properties/
+*.csproj
+*.resx
+App.config
+*.Designer.*
+UpgradeLog.XML
+*.suo
+*.user

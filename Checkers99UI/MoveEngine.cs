@@ -6,7 +6,7 @@ using Checkers99GAME;
 
 namespace Checkers99UI
 {
-	class TestEngine : IEngine
+	class MoveEngine : IEngine
 	{
 		static Byte mustJumpFromSquare;
 		Engine engine = new Engine();
@@ -14,12 +14,12 @@ namespace Checkers99UI
 		Image whiteKing;
 		Image redKing;
 
-		static TestEngine()
+		static MoveEngine()
 		{
 			mustJumpFromSquare = 0;
 		}
 
-		public TestEngine(Byte[] board)
+		public MoveEngine(Byte[] board)
 		{
 			this.board = board;
 

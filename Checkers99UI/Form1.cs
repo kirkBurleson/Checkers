@@ -47,7 +47,7 @@ namespace Checkers99UI
                 1,0,1,0,1,0,1,0};
 
 			ai = new AI();
-			engine = new TestEngine(board);
+			engine = new MoveEngine(board);
 			redPlayer = new Player(Player.PlayerColor.RED, Player.PlayerType.COMPUTER);
 			whitePlayer = new Player(Player.PlayerColor.WHITE, Player.PlayerType.HUMAN);
 			currentPlayer = whitePlayer;

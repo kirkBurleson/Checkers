@@ -115,22 +115,6 @@ namespace Checkers99GAME
 			}
 		}
 
-		private static void DrawBoard(Byte[] board)
-		{
-			Console.Clear();
-			for (Byte index = 0; index < board.Length; index++)
-			{
-				if (index % 8 == 0) Console.WriteLine();
-
-				if (board[index] == 0)
-					Console.Write(" .");
-				else
-					Console.Write(" " + board[index].ToString());
-
-			}
-			Console.WriteLine();
-		}
-
 		private static void ChangeSides(Player player)
 		{
 			player.SetColor(GetOppositeColor(player));
@@ -316,25 +300,6 @@ namespace Checkers99GAME
 			List<Move> moves = _engine.FindMoves(_board, playerColor);
 
 			return moves;
-		}
-
-		private void ScoreMoves(List<Move> potentialMoves)
-		{
-			foreach (Move move in potentialMoves)
-			{
-				_undoBoards.Push((Byte[])_board.Clone());
-
-				MakeMove(move);
-
-				SetMoveScore(move);
-
-				UndoMove();
-			}
-		}
-
-		private void SetMoveScore(Move move)
-		{
-			move.SetScore(EvaluateBoard());
 		}
 
 		private void MakeMove(Move move)

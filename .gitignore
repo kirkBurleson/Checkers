@@ -8,3 +8,5 @@ App.config
 UpgradeLog.XML
 *.suo
 *.user
+*.psess
+*.vsp

@@ -83,8 +83,12 @@ namespace Checkers99GAME
 				MakeMove(potentialMoves[i]);
 
 				ChangeSides(player);
+
 				var moves = GetPlayerLegalMoves(player);
-				potentialMoves[i].SetScore(MinMax(moves, 3, player));
+
+				potentialMoves[i].SetScore(KSearch(moves, 4, player));
+
+				ChangeSides(player);
 
 				if (potentialMoves[i].Score > bestMove.Score)
 					bestMove = potentialMoves[i];
@@ -245,27 +249,43 @@ namespace Checkers99GAME
 			_board[js] = 0;
 		}
 
-		private Single MinMax(List<Move> moves, Int32 plies, Player player)
+		private Single KSearch(List<Move> moves, Int32 plies, Player player)
 		{
-			if (plies == 0)
+			if (plies == 0 || moves.Count == 0)
 				return EvaluateBoard();
-			
-			for (var i = 0; i < moves.Count(); i++)
+
+			Single best = (player.Color == Player.PlayerColor.RED) ? Single.MinValue : Single.MaxValue;
+			Single current;
+
+			foreach (var m in moves)
 			{
 				_history.Push((Byte[])_board.Clone());
 
-				MakeMove(moves[i]);
+				MakeMove(m);				
 
 				ChangeSides(player);
 
-				var s = MinMax(GetPlayerLegalMoves(player), --plies, player);
+				var nextMoves = GetPlayerLegalMoves(player);
 
-				_board = _history.Pop();
+				current = KSearch(nextMoves, plies - 1, player);
 
-				return s;
+				ChangeSides(player);
+
+				if (player.Color == Player.PlayerColor.RED)
+				{
+					if (current > best)
+						best = current;
+				}
+				else
+				{
+					if (current < best)
+						best = current;
+				}
+
+				_board = _history.Pop();								
 			}
 
-			return EvaluateBoard();
+			return best;
 		}
 
 		private Move GetBestMove()

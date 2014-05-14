@@ -52,9 +52,9 @@ namespace Checkers99UI
 			whitePlayer = new Player(Player.PlayerColor.WHITE, Player.PlayerType.HUMAN);
 			currentPlayer = whitePlayer;
 			gameOver = false;
-			ChangeMessage("Turn: " + currentPlayer.Color.ToString());
+			pbTurnSignal.BackColor = Color.Green;
 			timer = new Timer();
-			timer.Interval = 100;
+			timer.Interval = 400;
 			timer.Tick += timer_Tick;
 
 			try
@@ -80,9 +80,8 @@ namespace Checkers99UI
 
 			if (currentPlayer.Type == Player.PlayerType.COMPUTER)
 			{
-				ChangeMessage("Turn: " + currentPlayer.Color.ToString());
-
 				var move = ai.GetMove((Byte[])board.Clone(), currentPlayer);
+
 				if (move == null)
 				{
 					gameOver = true;
@@ -138,6 +137,7 @@ namespace Checkers99UI
 					startSquareNum = clickedSquareNum;
 					startSquare = clickedSquare;
 				}
+
 				return;
 			}
 
@@ -158,12 +158,16 @@ namespace Checkers99UI
 							ChangeCurrentPlayer();
 
 						if (currentPlayer.Type == Player.PlayerType.COMPUTER)
+						{
+							pbTurnSignal.BackColor = Color.Transparent;
 							timer.Start();
+						}
+
 						else
 						{
 							if (engine.CanPlayerMove(currentPlayer.Color.ToString()) == true)
 							{
-								ChangeMessage("Turn: " + currentPlayer.Color.ToString());
+								pbTurnSignal.BackColor = Color.Green;
 							}
 							else
 							{
@@ -172,6 +176,7 @@ namespace Checkers99UI
 							}
 						}
 					}
+
 					else
 						Debug.Write("sq_MouseClick: Engine reports illegal move.");
 				}
@@ -214,6 +219,7 @@ namespace Checkers99UI
 		{
 			StartNewGame();
 			SetCheckersToStartingPositions();
+			
 		}
 
 		private void SetCheckersToStartingPositions()

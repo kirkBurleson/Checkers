@@ -135,13 +135,6 @@ namespace Checkers99GAME
 		private UInt64 redCheckers = 0UL;
 		private UInt64 redKings = 0UL;
 		private UInt64 emptySquares = 0UL;
-		private UInt64 kingSquares = 6124895493223874730UL;
-
-		//strategy bitboards
-		private UInt64 centerSquares = 0UL;
-		private static UInt64 edgeSquares = 108088040349499672UL;
-		private static UInt64 whiteKingSquares = 170UL;
-		private static UInt64 redKingSquares = 6124895493223874560UL;
 
 		#endregion
 		#region LOOKUP TABLES
@@ -316,9 +309,6 @@ namespace Checkers99GAME
 			RedKing = 4
 		};
 
-		private static Int32 count = 0;
-		private const Player.PlayerColor RED = Player.PlayerColor.RED;
-		private const Player.PlayerColor WHITE = Player.PlayerColor.WHITE;
 		private Stack<Byte[]> _boardStack;
 		private Byte[] _board;
 		private Byte[] NonAttackingSquaresNW = { 1, 3, 5, 7, 8, 10, 12, 14, 17, 24, 33, 40, 49, 56 };
@@ -527,35 +517,6 @@ namespace Checkers99GAME
 		private Boolean CanMoveSE(Byte startSquare)
 		{
 			return (NonMovingSquaresSE.Contains(startSquare) == false) && ((emptySquares & redAttackSquares[startSquare][1]) != 0UL);
-		}
-
-		private Boolean CanMove(Piece piece, Byte square)
-		{
-			switch (piece)
-			{
-				case Piece.WhiteChecker:
-					return CanMoveNW(square) || CanMoveNE(square);
-
-				case Piece.RedChecker:
-					return CanMoveSW(square) || CanMoveSE(square);
-
-				case Piece.RedKing:
-				case Piece.WhiteKing:
-					return CanMoveNW(square) || CanMoveNE(square) || CanMoveSW(square) || CanMoveSE(square);
-
-				default:
-					return false;
-			}
-		}
-
-		private Boolean CanMoveUp(Piece piece, Byte startSquare)
-		{
-			return CanMoveNW(startSquare) || CanMoveNE(startSquare);
-		}
-
-		private Boolean CanMoveDown(Piece piece, Byte startSquare)
-		{
-			return CanMoveSW(startSquare) || CanMoveSE(startSquare);
 		}
 
 		private Boolean IsLandingSquareEmpty(Byte startSquare, MoveDirection jumpDirection)

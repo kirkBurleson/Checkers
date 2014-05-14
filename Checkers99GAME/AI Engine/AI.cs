@@ -16,7 +16,6 @@ namespace Checkers99GAME
 		}
 
 		private Byte[] _board;
-		private Stack<Byte[]> _undoBoards;
 		private Engine _engine;
 		private List<Move> _startingMoves;
 		private Byte[] _kingSquares;
@@ -24,7 +23,6 @@ namespace Checkers99GAME
 
 		public AI()
 		{
-			_undoBoards = new Stack<Byte[]>();
 			_history = new Stack<Byte[]>();
 			_engine = new Engine();
 			_startingMoves = new List<Move>();
@@ -122,21 +120,6 @@ namespace Checkers99GAME
 		private static void ChangeSides(Player player)
 		{
 			player.SetColor(GetOppositeColor(player));
-		}
-
-		private static Single SumChildScores(List<Move> children)
-		{
-			Single total = 0.0f;
-
-			foreach (Move m in children)
-			{
-				total += m.Score;
-
-				if (m.HasChildMoves)
-					total += SumChildScores(m.Jumps);
-			}
-
-			return total;
 		}
 
 		private Single EvaluateBoard()
@@ -288,34 +271,9 @@ namespace Checkers99GAME
 			return best;
 		}
 
-		private Move GetBestMove()
-		{
-			Move bestMove = null;
-			Single high = Single.MinValue;
-			Single total = 0f;
-
-			foreach (Move move in _startingMoves)
-			{
-				total += move.Score;
-
-				if (move.HasChildMoves)
-					total += SumChildScores(move.Jumps);
-
-				if (total > high)
-				{
-					bestMove = move;
-					high = total;
-				}
-
-				total = 0.0f;
-			}
-
-			return bestMove;
-		}
-
 		private List<Move> GetPlayerLegalMoves(Player player)
 		{
-			String playerColor = (player.Color == Player.PlayerColor.NONE ? "" : player.Color.ToString().ToLower());
+			String playerColor = player.Color.ToString().ToLower();
 
 			List<Move> moves = _engine.FindMoves(_board, playerColor);
 
@@ -337,11 +295,6 @@ namespace Checkers99GAME
 				foreach (Move m in move.Jumps)
 					MakeMove(m);
 			}
-		}
-
-		private void UndoMove()
-		{
-			_undoBoards.Pop().CopyTo(_board, 0);
 		}
 	}
 }

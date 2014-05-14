@@ -9,7 +9,7 @@ namespace Checkers99UI
 	class MoveEngine : IEngine
 	{
 		static Byte mustJumpFromSquare;
-		Engine engine = new Engine();
+		Engine engine;
 		Byte[] board;
 		Image whiteKing;
 		Image redKing;
@@ -22,6 +22,7 @@ namespace Checkers99UI
 		public MoveEngine(Byte[] board)
 		{
 			this.board = board;
+			engine = new Engine();
 
 			try
 			{

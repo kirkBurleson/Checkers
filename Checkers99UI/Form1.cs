@@ -27,6 +27,40 @@ namespace Checkers99UI
 		private Boolean gameOver;
 		private Image whiteChecker;
 		private Image redChecker;
+		public Dictionary<String, String> algebraicLookup = new Dictionary<String, String>() {
+			{ "1", "A2" },
+			{ "3", "A4" },
+			{ "5", "A6" },
+			{ "7", "A8" },
+			{ "8", "B1" },
+			{ "10", "B3" },
+			{ "12", "B5" },
+			{ "14", "B7" },
+			{ "17", "C2" },
+			{ "19", "C4" },
+			{ "21", "C6" },
+			{ "23", "C8" },
+			{ "24", "D1" },
+			{ "26", "D3" },
+			{ "28", "D5" },
+			{ "30", "D7" },
+			{ "33", "E2" },
+			{ "35", "E4" },
+			{ "37", "E6" },
+			{ "39", "E8" },
+			{ "40", "F1" },
+			{ "42", "F3" },
+			{ "44", "F5" },
+			{ "46", "F7" },
+			{ "49", "G2" },
+			{ "51", "G4" },
+			{ "53", "G6" },
+			{ "55", "G8" },		
+			{ "56", "H1" },
+			{ "58", "H3" },
+			{ "60", "H5" },
+			{ "62", "H7" }
+		};
 
 		public Form1()
 		{
@@ -136,6 +170,7 @@ namespace Checkers99UI
 				{
 					startSquareNum = clickedSquareNum;
 					startSquare = clickedSquare;
+					ChangeMessage(algebraicLookup[startSquareNum]);
 				}
 
 				return;
@@ -200,6 +235,9 @@ namespace Checkers99UI
 			startSquare = null;
 			endSquare = null;
 			endSquareNum = "";
+
+			if (gameOver == false)
+				ChangeMessage("");
 		}
 
 		private void UpdateBoardState()
@@ -219,6 +257,7 @@ namespace Checkers99UI
 		{
 			StartNewGame();
 			SetCheckersToStartingPositions();
+			ChangeMessage("");
 			
 		}
 

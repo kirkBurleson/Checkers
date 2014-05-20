@@ -1,9 +1,13 @@
 Checkers
 ========
 
-The release folder contains the files you need to play the game.
-You must have .net 4.5 installed to play.
+If you just want to play Checkers 3, to the right of this message click the 'Download zip' button.
+Extract it and open the 'Release' folder.
 Double click "Play_Game" to play Checkers.
+You must have .net 4.5 installed to play.
+
+Instructions:
+=============
 
 You can only play the white side.
 Click on a checker to start a move.

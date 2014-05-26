@@ -7,7 +7,7 @@ namespace Checkers99GAME
 {
 	public sealed class Move
 	{
-		public Single Score { get; private set; }
+		public Int32 Score { get; private set; }
 
 		public Byte StartSquare { get; private set; }
 
@@ -26,18 +26,18 @@ namespace Checkers99GAME
 			StartSquare = startSquare;
 			EndSquare = endSquare;
 			IsJump = isJump;
-			Score = 0f;
+			Score = 0;
 			Jumps = new List<Move>();
 			JumpLandingSquares = new List<Byte>();
 			WillKing = false;
 		}
 
-		public void SetScore(Single score)
+		public void SetScore(Int32 score)
 		{
 			Score = score;
 		}
 
-		public void AddToScore(Single score)
+		public void AddToScore(Int32 score)
 		{
 			Score += score;
 		}

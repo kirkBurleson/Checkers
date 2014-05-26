@@ -88,7 +88,7 @@ namespace Checkers99UI
 			gameOver = false;
 			pbTurnSignal.BackColor = Color.Green;
 			timer = new Timer();
-			timer.Interval = 400;
+			timer.Interval = 200;
 			timer.Tick += timer_Tick;
 
 			try

@@ -214,9 +214,8 @@ namespace Checkers99GAME
 
 		private Int32 alphabeta(List<Move> moves, Int32 plies, Player player, Int32 alpha, Int32 beta)
 		{
-			// detect winning position
 			if (moves.Count == 0)
-				return Int32.MinValue;
+				return Int32.MaxValue;
 
 			if (plies == 0)				
 				return EvaluateBoard();
@@ -224,7 +223,6 @@ namespace Checkers99GAME
 			Int32 best = Int32.MinValue;
 			Int32 current;
 			Int32 localAlpha = alpha;
-			Move bestMove = null;
 
 			foreach (var m in moves)
 			{
@@ -243,22 +241,15 @@ namespace Checkers99GAME
 				_board = _history.Pop();
 
 				if (current > best)
-				{
 					best = current;
-					bestMove = m;
-				}
 
 				if (best >= beta)
-				{
-					Debug.WriteLine("Pruning from " + m.StartSquare);
 					break;
-				}
 
 				if (best > localAlpha)
 					localAlpha = best;
 			}
 
-			Debug.WriteLine("Best: " + bestMove.StartSquare + " - " + bestMove.EndSquare + " S: " + best + " E: " + _evaluated);
 			return best;
 		}
 
@@ -287,7 +278,7 @@ namespace Checkers99GAME
 
 		private static void ChangeSides(Player player)
 		{
-			player.SetColor(GetOppositeColor(player));
+			player.SetColor((player.Color == Player.PlayerColor.RED) ? Player.PlayerColor.WHITE : Player.PlayerColor.RED);
 		}
 
 		private Int32 EvaluateBoard()
@@ -386,10 +377,5 @@ namespace Checkers99GAME
 
 			return score;
 		}
-
-		private static Player.PlayerColor GetOppositeColor(Player currentPlayer)
-		{
-			return (currentPlayer.Color == Player.PlayerColor.RED) ? Player.PlayerColor.WHITE : Player.PlayerColor.RED;
-		}			
 	}
 }

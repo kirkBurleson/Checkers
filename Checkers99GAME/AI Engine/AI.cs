@@ -285,97 +285,126 @@ namespace Checkers99GAME
 		{
 			Int32 score = 0;
 
-			score = GetPieceScore();
+			//score = GetPieceScore();
 
-			score += GetHeuristicScore();
+			// score pieces
+			for (var i = 0; i < 64; i++)
+			{
+				if (_board[i] == 0) continue;
+				if (_board[i] == 1) score -= 1;
+				else if (_board[i] == 2) score += 1;
+				else if (_board[i] == 3) score -= 3;
+				else score += 3;
+			}
+
+			//score += GetHeuristicScore();
+
+			// score Kings Row Defense
+			if (_board[1] == 2 || _board[1] == 4) score += 1;
+			if (_board[5] == 2 || _board[5] == 4) score += 1;
+			if (_board[58] == 1 || _board[58] == 3) score -= 1;
+			if (_board[62] == 1 || _board[62] == 3) score -= 1;
+
+			// Key square control
+			if (_board[35] == 2 || _board[35] == 4) score += 4;
+			else if (_board[35] == 1 || _board[35] == 3) score -= 4;
+
+			if (_board[37] == 2 || _board[37] == 4) score += 4;
+			else if (_board[37] == 1 || _board[37] == 3) score -= 4;
+
+			if (_board[26] == 2 || _board[26] == 4) score += 4;
+			else if (_board[26] == 1 || _board[26] == 3) score -= 4;
+
+			if (_board[28] == 2 || _board[28] == 4) score += 4;
+			else if (_board[28] == 1 || _board[28] == 3) score -= 4;
 
 			_evaluated++;
 
 			return score;
 		}
 
-		private Int32 GetPieceScore()
-		{
-			Int32 score = 0;
+		//private Int32 GetPieceScore()
+		//{
+		//	Int32 score = 0;
 
-			foreach (Byte square in _board)
-			{
-				switch (square)
-				{
-					case 1://white checker
-						score -= 10;
-						break;
+		//	foreach (Byte square in _board)
+		//	{
+		//		switch (square)
+		//		{
+		//			case 1://white checker
+		//				score -= 10;
+		//				break;
 
-					case 2://red checker
-						score += 10;
-						break;
+		//			case 2://red checker
+		//				score += 10;
+		//				break;
 
-					case 3://white king
-						score -= 30;
-						break;
+		//			case 3://white king
+		//				score -= 30;
+		//				break;
 
-					case 4://red king
-						score += 30;
-						break;
-				}
-			}
+		//			case 4://red king
+		//				score += 30;
+		//				break;
+		//		}
+		//	}
 
-			return score;
-		}
+		//	return score;
+		//}
 
-		private Int32 GetHeuristicScore()
-		{
-			Int32 score = 0;
+		//private Int32 GetHeuristicScore()
+		//{
+		//	Int32 score = 0;
 
-			score += GetControlSquareScore();
+		//	score += GetControlSquareScore();
 
-			score += GetKingsRowDefenseScore();
+		//	score += GetKingsRowDefenseScore();
 
-			return score;
-		}
+		//	return score;
+		//}
 
-		private Int32 GetKingsRowDefenseScore()
-		{
-			Int32 score = 0;
+		//private Int32 GetKingsRowDefenseScore()
+		//{
+		//	Int32 score = 0;
 
-			if ((Engine.Piece)_board[1] == Engine.Piece.RedChecker)
-				score += 50;
+		//	if ((Engine.Piece)_board[1] == Engine.Piece.RedChecker)
+		//		score += 50;
 
-			if ((Engine.Piece)_board[5] == Engine.Piece.RedChecker)
-				score += 50;
+		//	if ((Engine.Piece)_board[5] == Engine.Piece.RedChecker)
+		//		score += 50;
 
-			if ((Engine.Piece)_board[58] == Engine.Piece.WhiteChecker)
-				score -= 50;
+		//	if ((Engine.Piece)_board[58] == Engine.Piece.WhiteChecker)
+		//		score -= 50;
 
-			if ((Engine.Piece)_board[62] == Engine.Piece.WhiteChecker)
-				score -= 50;
+		//	if ((Engine.Piece)_board[62] == Engine.Piece.WhiteChecker)
+		//		score -= 50;
 
-			return score;
-		}
+		//	return score;
+		//}
 
-		private Int32 GetControlSquareScore()
-		{
-			Int32 score = 0;
+		//private Int32 GetControlSquareScore()
+		//{
+		//	Int32 score = 0;
 
-			Byte[] controlSquares = { 35, 37, 26, 28 };
+		//	Byte[] controlSquares = { 35, 37, 26, 28 };
 
-			foreach (Byte square in controlSquares)
-			{
-				switch ((Engine.Piece)_board[square])
-				{
-					case Engine.Piece.RedChecker:
-					case Engine.Piece.RedKing:
-						score += 20;
-						break;
+		//	foreach (Byte square in controlSquares)
+		//	{
+		//		switch ((Engine.Piece)_board[square])
+		//		{
+		//			case Engine.Piece.RedChecker:
+		//			case Engine.Piece.RedKing:
+		//				score += 20;
+		//				break;
 
-					case Engine.Piece.WhiteChecker:
-					case Engine.Piece.WhiteKing:
-						score -= 20;
-						break;
-				}
-			}
+		//			case Engine.Piece.WhiteChecker:
+		//			case Engine.Piece.WhiteKing:
+		//				score -= 20;
+		//				break;
+		//		}
+		//	}
 
-			return score;
-		}
+		//	return score;
+		//}
 	}
 }

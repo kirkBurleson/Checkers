@@ -747,7 +747,8 @@ namespace Checkers99GAME
 								Move m = CreateMoveFromJump(index, MoveDirection.NW);
 								jumps.Add(m);
 								MakeMove(m);
-								FindJumpsFromSquare(m.EndSquare, m);
+								if (!m.WillKing)
+									FindJumpsFromSquare(m.EndSquare, m);
 								UndoMove();
 							}
 							if (CanJumpNE(piece, index))
@@ -755,7 +756,8 @@ namespace Checkers99GAME
 								Move m = CreateMoveFromJump(index, MoveDirection.NE);
 								jumps.Add(m);
 								MakeMove(m);
-								FindJumpsFromSquare(m.EndSquare, m);
+								if (!m.WillKing)
+									FindJumpsFromSquare(m.EndSquare, m);
 								UndoMove();
 							}
 							if (CanJumpSW(piece, index))
@@ -763,7 +765,8 @@ namespace Checkers99GAME
 								Move m = CreateMoveFromJump(index, MoveDirection.SW);
 								jumps.Add(m);
 								MakeMove(m);
-								FindJumpsFromSquare(m.EndSquare, m);
+								if (!m.WillKing)
+									FindJumpsFromSquare(m.EndSquare, m);
 								UndoMove();
 							}
 							if (CanJumpSE(piece, index))
@@ -771,7 +774,8 @@ namespace Checkers99GAME
 								Move m = CreateMoveFromJump(index, MoveDirection.SE);
 								jumps.Add(m);
 								MakeMove(m);
-								FindJumpsFromSquare(m.EndSquare, m);
+								if (!m.WillKing)
+									FindJumpsFromSquare(m.EndSquare, m);
 								UndoMove();
 							}
 							break;
@@ -781,7 +785,8 @@ namespace Checkers99GAME
 								Move m = CreateMoveFromJump(index, MoveDirection.NW);
 								jumps.Add(m);
 								MakeMove(m);
-								FindJumpsFromSquare(m.EndSquare, m);
+								if (!m.WillKing)
+									FindJumpsFromSquare(m.EndSquare, m);
 								UndoMove();
 							}
 							if (CanJumpNE(piece, index))
@@ -789,7 +794,8 @@ namespace Checkers99GAME
 								Move m = CreateMoveFromJump(index, MoveDirection.NE);
 								jumps.Add(m);
 								MakeMove(m);
-								FindJumpsFromSquare(m.EndSquare, m);
+								if (!m.WillKing)
+									FindJumpsFromSquare(m.EndSquare, m);
 								UndoMove();
 							}
 							break;
@@ -799,7 +805,8 @@ namespace Checkers99GAME
 								Move m = CreateMoveFromJump(index, MoveDirection.SW);
 								jumps.Add(m);
 								MakeMove(m);
-								FindJumpsFromSquare(m.EndSquare, m);
+								if (!m.WillKing)
+									FindJumpsFromSquare(m.EndSquare, m);
 								UndoMove();
 							}
 							if (CanJumpSE(piece, index))
@@ -807,7 +814,8 @@ namespace Checkers99GAME
 								Move m = CreateMoveFromJump(index, MoveDirection.SE);
 								jumps.Add(m);
 								MakeMove(m);
-								FindJumpsFromSquare(m.EndSquare, m);
+								if (!m.WillKing)
+									FindJumpsFromSquare(m.EndSquare, m);
 								UndoMove();
 							}
 							break;

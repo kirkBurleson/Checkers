@@ -3,7 +3,7 @@ Checkers
 
 If you just want to play Checkers 3, to the right of this message click the 'Download zip' button.
 Extract it and open the 'Release' folder.
-Double click "Play_Game" to play Checkers.
+Double click "Play_Me" to play Checkers.
 You must have .net 4.5 installed to play.
 
 Instructions:

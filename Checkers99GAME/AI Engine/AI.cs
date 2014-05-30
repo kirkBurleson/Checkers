@@ -8,10 +8,12 @@ namespace Checkers99GAME
 {
 	public sealed class AI
 	{
+		public static Int32 score;
 		static Byte mustJumpFromSquare;
 		static List<Move> jumpChoices;
 		static AI()
 		{
+			score = 0;
 			mustJumpFromSquare = 0;
 			jumpChoices = new List<Move>();
 		}
@@ -116,7 +118,7 @@ namespace Checkers99GAME
 				
 				//potentialMoves[i].SetScore(minimax(moves, 6, player));
 
-				potentialMoves[i].SetScore(alphabeta(moves, 8, player, Int32.MinValue, Int32.MaxValue));
+				potentialMoves[i].SetScore(alphabeta(moves, 10, player, Int32.MinValue, Int32.MaxValue));
 
 				ChangeSides(player);
 
@@ -129,6 +131,8 @@ namespace Checkers99GAME
 
 			if (bestMove != null)
 				DoMustJumpLogic(bestMove);
+
+			score = bestMove.Score;
 
 			return bestMove;
 		}
@@ -145,7 +149,7 @@ namespace Checkers99GAME
 		private Int32 minimax(List<Move> moves, Int32 plies, Player player)
 		{
 			if (plies == 0 || moves.Count == 0)
-				return EvaluateBoard();
+				return EvaluateBoard(null);
 
 			Int32 best = (player.Color == Player.PlayerColor.RED) ? Int32.MinValue : Int32.MaxValue;
 			Int32 current;
@@ -184,7 +188,7 @@ namespace Checkers99GAME
 		private Int32 negamax(List<Move> moves, Int32 plies, Player player)
 		{
 			if (plies == 0 || moves.Count == 0)
-				return EvaluateBoard();
+				return EvaluateBoard(null);
 
 			Int32 best = Int32.MinValue;
 			Int32 current;
@@ -218,7 +222,7 @@ namespace Checkers99GAME
 				return Int32.MaxValue;
 
 			if (plies == 0)				
-				return EvaluateBoard();
+				return EvaluateBoard(null);
 
 			Int32 best = Int32.MinValue;
 			Int32 current;
@@ -281,130 +285,28 @@ namespace Checkers99GAME
 			player.SetColor((player.Color == Player.PlayerColor.RED) ? Player.PlayerColor.WHITE : Player.PlayerColor.RED);
 		}
 
-		private Int32 EvaluateBoard()
+		public Int32 EvaluateBoard(Byte[] board)
 		{
+			Byte[] tmpBoard = (board == null) ? _board : board;
 			Int32 score = 0;
-
-			//score = GetPieceScore();
+			Byte p = 0;
 
 			// score pieces
 			for (var i = 0; i < 64; i++)
 			{
-				if (_board[i] == 0) continue;
-				if (_board[i] == 1) score -= 1;
-				else if (_board[i] == 2) score += 1;
-				else if (_board[i] == 3) score -= 3;
-				else score += 3;
+				if (tmpBoard[i] == 0) continue;
+
+				p = tmpBoard[i];
+
+				if (p == 1) score -= 100;
+				else if (p == 2) score += 100;
+				else if (p == 3) score -= 150;
+				else if (p == 4) score += 150;
 			}
-
-			//score += GetHeuristicScore();
-
-			// score Kings Row Defense
-			if (_board[1] == 2 || _board[1] == 4) score += 1;
-			if (_board[5] == 2 || _board[5] == 4) score += 1;
-			if (_board[58] == 1 || _board[58] == 3) score -= 1;
-			if (_board[62] == 1 || _board[62] == 3) score -= 1;
-
-			// Key square control
-			if (_board[35] == 2 || _board[35] == 4) score += 4;
-			else if (_board[35] == 1 || _board[35] == 3) score -= 4;
-
-			if (_board[37] == 2 || _board[37] == 4) score += 4;
-			else if (_board[37] == 1 || _board[37] == 3) score -= 4;
-
-			if (_board[26] == 2 || _board[26] == 4) score += 4;
-			else if (_board[26] == 1 || _board[26] == 3) score -= 4;
-
-			if (_board[28] == 2 || _board[28] == 4) score += 4;
-			else if (_board[28] == 1 || _board[28] == 3) score -= 4;
 
 			_evaluated++;
 
 			return score;
 		}
-
-		//private Int32 GetPieceScore()
-		//{
-		//	Int32 score = 0;
-
-		//	foreach (Byte square in _board)
-		//	{
-		//		switch (square)
-		//		{
-		//			case 1://white checker
-		//				score -= 10;
-		//				break;
-
-		//			case 2://red checker
-		//				score += 10;
-		//				break;
-
-		//			case 3://white king
-		//				score -= 30;
-		//				break;
-
-		//			case 4://red king
-		//				score += 30;
-		//				break;
-		//		}
-		//	}
-
-		//	return score;
-		//}
-
-		//private Int32 GetHeuristicScore()
-		//{
-		//	Int32 score = 0;
-
-		//	score += GetControlSquareScore();
-
-		//	score += GetKingsRowDefenseScore();
-
-		//	return score;
-		//}
-
-		//private Int32 GetKingsRowDefenseScore()
-		//{
-		//	Int32 score = 0;
-
-		//	if ((Engine.Piece)_board[1] == Engine.Piece.RedChecker)
-		//		score += 50;
-
-		//	if ((Engine.Piece)_board[5] == Engine.Piece.RedChecker)
-		//		score += 50;
-
-		//	if ((Engine.Piece)_board[58] == Engine.Piece.WhiteChecker)
-		//		score -= 50;
-
-		//	if ((Engine.Piece)_board[62] == Engine.Piece.WhiteChecker)
-		//		score -= 50;
-
-		//	return score;
-		//}
-
-		//private Int32 GetControlSquareScore()
-		//{
-		//	Int32 score = 0;
-
-		//	Byte[] controlSquares = { 35, 37, 26, 28 };
-
-		//	foreach (Byte square in controlSquares)
-		//	{
-		//		switch ((Engine.Piece)_board[square])
-		//		{
-		//			case Engine.Piece.RedChecker:
-		//			case Engine.Piece.RedKing:
-		//				score += 20;
-		//				break;
-
-		//			case Engine.Piece.WhiteChecker:
-		//			case Engine.Piece.WhiteKing:
-		//				score -= 20;
-		//				break;
-		//		}
-		//	}
-
-		//	return score;
-		//}
 	}
 }

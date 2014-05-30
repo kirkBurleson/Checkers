@@ -90,6 +90,7 @@ namespace Checkers99UI
 			timer = new Timer();
 			timer.Interval = 200;
 			timer.Tick += timer_Tick;
+			lblScore.Text = "0";
 
 			try
 			{
@@ -203,6 +204,7 @@ namespace Checkers99UI
 							if (engine.CanPlayerMove(currentPlayer.Color.ToString()) == true)
 							{
 								pbTurnSignal.BackColor = Color.Green;
+								lblScore.Text = AI.score.ToString();
 							}
 							else
 							{

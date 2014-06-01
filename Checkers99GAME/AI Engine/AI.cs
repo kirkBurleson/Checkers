@@ -304,6 +304,28 @@ namespace Checkers99GAME
 				else if (p == 4) score += 150;
 			}
 
+			// kings row defense
+			if (tmpBoard[1] == 2) score += 20;
+			if (tmpBoard[3] == 2) score += 20;
+			if (tmpBoard[5] == 2) score += 20;
+			if (tmpBoard[7] == 2) score += 20;
+
+			if (tmpBoard[56] == 1) score -= 20;
+			if (tmpBoard[58] == 1) score -= 20;
+			if (tmpBoard[60] == 1) score -= 20;
+			if (tmpBoard[62] == 1) score -= 20;
+
+			// center control
+			if (tmpBoard[26] == 2 || tmpBoard[26] == 4) score += 10;
+			if (tmpBoard[28] == 2 || tmpBoard[28] == 4) score += 10;
+			if (tmpBoard[35] == 2 || tmpBoard[35] == 4) score += 10;
+			if (tmpBoard[37] == 2 || tmpBoard[37] == 4) score += 10;
+
+			if (tmpBoard[26] == 1 || tmpBoard[26] == 3) score -= 10;
+			if (tmpBoard[28] == 1 || tmpBoard[28] == 3) score -= 10;
+			if (tmpBoard[35] == 1 || tmpBoard[35] == 3) score -= 10;
+			if (tmpBoard[37] == 1 || tmpBoard[37] == 3) score -= 10;
+
 			_evaluated++;
 
 			return score;

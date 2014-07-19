@@ -102,7 +102,7 @@ namespace Checkers99GAME
 			}
 
 			Move bestMove = potentialMoves[0];
-			_evaluated = 0; // Statistics only
+			//_evaluated = 0; // Statistics only
 
 			for (var i = 0; i < potentialMoves.Count(); i++)
 			{
@@ -110,7 +110,7 @@ namespace Checkers99GAME
 
 				MakeMove(potentialMoves[i]);
 
-				ChangeSides(player);
+				player.SetColor((player.Color == Player.PlayerColor.RED) ? Player.PlayerColor.WHITE : Player.PlayerColor.RED);
 
 				var moves = GetPlayerLegalMoves(player);
 
@@ -118,9 +118,9 @@ namespace Checkers99GAME
 				
 				//potentialMoves[i].SetScore(minimax(moves, 6, player));
 
-				potentialMoves[i].SetScore(alphabeta(moves, 10, player, Int32.MinValue, Int32.MaxValue));
+				potentialMoves[i].SetScore(alphabeta(moves, 6, player, Int32.MinValue, Int32.MaxValue));
 
-				ChangeSides(player);
+				player.SetColor((player.Color == Player.PlayerColor.RED) ? Player.PlayerColor.WHITE : Player.PlayerColor.RED);
 
 				if (potentialMoves[i].Score > bestMove.Score)
 					bestMove = potentialMoves[i];
@@ -219,7 +219,12 @@ namespace Checkers99GAME
 		private Int32 alphabeta(List<Move> moves, Int32 plies, Player player, Int32 alpha, Int32 beta)
 		{
 			if (moves.Count == 0)
-				return Int32.MaxValue;
+			{
+				if (player.Color == Player.PlayerColor.WHITE)
+					return Int32.MaxValue;
+				else
+					return Int32.MinValue;
+			}
 
 			if (plies == 0)				
 				return EvaluateBoard(null);
@@ -234,13 +239,13 @@ namespace Checkers99GAME
 
 				MakeMove(m);
 
-				ChangeSides(player);
+				player.SetColor((player.Color == Player.PlayerColor.RED) ? Player.PlayerColor.WHITE : Player.PlayerColor.RED);
 
 				var nextMoves = GetPlayerLegalMoves(player);
 
 				current = -(alphabeta(nextMoves, plies - 1, player, -beta, -localAlpha));
 
-				ChangeSides(player);
+				player.SetColor((player.Color == Player.PlayerColor.RED) ? Player.PlayerColor.WHITE : Player.PlayerColor.RED);
 
 				_board = _history.Pop();
 
@@ -289,19 +294,16 @@ namespace Checkers99GAME
 		{
 			Byte[] tmpBoard = (board == null) ? _board : board;
 			Int32 score = 0;
-			Byte p = 0;
 
 			// score pieces
 			for (var i = 0; i < 64; i++)
 			{
 				if (tmpBoard[i] == 0) continue;
 
-				p = tmpBoard[i];
-
-				if (p == 1) score -= 100;
-				else if (p == 2) score += 100;
-				else if (p == 3) score -= 150;
-				else if (p == 4) score += 150;
+				if (tmpBoard[i] == 1) score -= 100;
+				else if (tmpBoard[i] == 2) score += 100;
+				else if (tmpBoard[i] == 3) score -= 300;
+				else if (tmpBoard[i] == 4) score += 300;
 			}
 
 			// kings row defense
@@ -325,8 +327,6 @@ namespace Checkers99GAME
 			if (tmpBoard[28] == 1 || tmpBoard[28] == 3) score -= 10;
 			if (tmpBoard[35] == 1 || tmpBoard[35] == 3) score -= 10;
 			if (tmpBoard[37] == 1 || tmpBoard[37] == 3) score -= 10;
-
-			_evaluated++;
 
 			return score;
 		}

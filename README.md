@@ -1,9 +1,9 @@
 #Checkers
 <hr/>
 
-To play:<br/>
+#Installation<br/>
 <ol>
-<li>click the 'Download zip' button</li>
+<li>Click the 'Download zip' button</li>
 <li>Extract it and open the 'Release' folder.</li>
 <li>Double click "Play_Me" to play Checkers</li>
 </ol>

@@ -10,7 +10,6 @@
 You must have .net 4.5 installed to play
 
 #Instructions
-<hr/>
 <ul>
 <li>You can only play the white side</li>
 <li>Click on a checker to start a move</li>
